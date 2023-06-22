@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
 class ResetPasswordController extends Controller
@@ -26,5 +32,40 @@ class ResetPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function reset(Request $request)
+    {
+        $request->validate(
+            [
+                'token' => 'required',
+                'email' => 'required|email',
+                'password' => [
+                    'required',
+                    'confirmed',
+                    Password::min(8)
+                        ->letters()
+                        ->mixedCase()
+                        ->symbols()
+                ],
+            ]
+        );
+
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+
+        // Error message when user does not exist
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'email' => ['User does not exist!'],
+            ]);
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Redirect the user after password reset
+        return redirect('/user_login')->with('success', 'Password reset successfully');
+    }
 }
