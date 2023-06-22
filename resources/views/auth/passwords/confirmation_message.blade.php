@@ -13,9 +13,11 @@
                     </div>
                     {{ __('Click on the link provided to proceed to the login page.') }}
 
-                    <form class="d-inline" method="POST" action="{{ route('s.verification') }}">
+                    <form class="" method="POST" action="{{ route('s.verification') }}">
                         @csrf
+                        <div class="m-5">
                         <button type="submit" class="btn btn-primary">{{ __('Login') }}</button>.
+                        </div>
                     </form>
                 </div>
             </div>

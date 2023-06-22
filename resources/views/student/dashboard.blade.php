@@ -7,6 +7,17 @@
             <div class="card">
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
+                @php
+                    $user = Auth::user(); // logic that handles users after email verification
+
+                    if ($user->last_login == null) {
+                        session()->flash('status', 'Email verification was successful');
+                    }
+
+                    $user->last_login = now();
+                    $user->save();
+                @endphp
+
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
@@ -19,6 +30,7 @@
                             {{ session('message') }}
                         </div>
                     @endif
+
 
                     {{ __('Students Dashboard!') }}
                 </div>

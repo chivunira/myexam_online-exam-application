@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -54,6 +55,13 @@ class LoginController extends Controller
         ]);
 
         if (auth()->attempt($request->only('email', 'password'), $request->remember)) {
+
+            $user = User::find(auth()->id());
+
+            $user->update([
+                'last_login' => now(),
+            ]);
+
             //directs user to dashboard
             //return redirect()->route('dashboard');
             if (Auth::user()->role_id == '3') // admin -> 1
