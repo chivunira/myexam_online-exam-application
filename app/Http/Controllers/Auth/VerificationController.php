@@ -25,12 +25,12 @@ class VerificationController extends Controller
 
     use VerifiesEmails;
 
-    /**
-     * Where to redirect users after verification.
-     *
-     * @var string
-     */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // /**
+    //  * Where to redirect users after verification.
+    //  *
+    //  * @var string
+    //  */
+    // protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -50,9 +50,23 @@ class VerificationController extends Controller
         return view('auth.verify');
     }
 
+    public function sverification()
+    {
+        return view('passwords.confirmation_message');
+    }
+
     public function redirectTo()
     {
-        Auth::logout();
-        return redirect('/login')->with('success', 'Account verified successfully, You can now login');
+        Auth::login(Auth::user());
+        // Check the role of the authenticated user
+        $user = Auth::user();
+
+        if ($user->role_id == 3) {
+            return '/admin/dashboard'; // Redirect to the admin dashboard
+        } elseif ($user->role_id == 1) {
+            return '/student/dashboard'; // Redirect to the manager dashboard
+        } else {
+            return '/lecturer/dashboard'; // Redirect to the user dashboard
+        }
     }
 }

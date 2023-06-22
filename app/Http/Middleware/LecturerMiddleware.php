@@ -17,12 +17,12 @@ class LecturerMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->role_as == '2') {
+            if (Auth::user()->role_id == '2') {
                 // 1 -> student
                 // 2 -> lecturer
                 // 0 -> admin
                 return $next($request);
-            } else if (Auth::user()->role_as == '1') {
+            } else if (Auth::user()->role_id == '1') {
                 return redirect('student/dashboard')->with('message', 'Access denied. You are not a lecturer');
             } else {
                 return redirect('admin/dashboard')->with('message', 'Access denied. You are not a lecturer');

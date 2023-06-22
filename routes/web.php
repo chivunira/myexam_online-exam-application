@@ -27,22 +27,30 @@ Auth::routes([
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('verified');
 
-// Email Verification Routes
-// Route::get('/email/verify', [VerificationController::class, 'show'])->name('verification.notice');
-// Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+Route::get('/user_login', [LoginController::class, 'index'])->name('loginn');
+Route::post('/user_login', [LoginController::class, 'store']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logoutt');
+
+//route to redirect the user to the success message after email verification
+Route::get('/successful_verification', [VerificationController::class, 'sverification'])->name('s.verification')->middleware('guest');
 
 
-Route::prefix('student')->middleware(['auth', 'isStd'])->group(function () {
+//paths accessed by students only
+Route::prefix('student')->middleware(['auth', 'isStd', 'verified'])->group(function () {
 
     Route::get('/dashboard', [StudentController::class, 'index'])->name('student.dashboard');
 });
 
-Route::prefix('lecturer')->middleware(['auth', 'isLec'])->group(function () {
 
-    Route::get('/dashboard', [LecturerController::class, 'inedx'])->name('lecturer.dashboard');
+////paths accessed by lecturers only
+Route::prefix('lecturer')->middleware(['auth', 'isLec', 'verified'])->group(function () {
+
+    Route::get('/dashboard', [LecturerController::class, 'index'])->name('lecturer.dashboard');
 });
 
-Route::prefix('admin')->middleware(['auth', 'isAdmin'])->group(function () {
+
+//paths accessed by the admin only
+Route::prefix('admin')->middleware(['auth', 'isAdmin', 'verified'])->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });

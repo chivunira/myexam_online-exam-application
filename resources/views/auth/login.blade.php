@@ -14,9 +14,17 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                    </div>    
+                    </div> 
+                    
+                    <div class="row mb-3">
+                        @if(session('message'))
+                            <div class="alert alert-danger">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+                    </div> 
 
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('loginn') }}">
                         @csrf
 
                         <div class="row mb-3">

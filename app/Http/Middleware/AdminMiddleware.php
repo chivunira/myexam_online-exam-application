@@ -17,12 +17,12 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            if (Auth::user()->role_as == '0') {
+            if (Auth::user()->role_id == '3') {
                 // 1 -> student
                 // 2 -> lecturer
                 // 0 -> admin
                 return $next($request);
-            } else if (Auth::user()->role_as == '2') {
+            } else if (Auth::user()->role_id == '2') {
                 return redirect('lecturer/dashboard')->with('message', 'Access denied. You are not an admin');
             } else {
                 return redirect('student/dashboard')->with('message', 'Access denied. You are not an admin');

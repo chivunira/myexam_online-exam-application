@@ -14,6 +14,12 @@
                         </div>
                     @endif
 
+                    @if (session('message'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+
                     {{ __('Students Dashboard!') }}
                 </div>
             </div>
