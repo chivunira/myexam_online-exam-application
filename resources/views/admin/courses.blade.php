@@ -14,27 +14,76 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> Courses </h4>
+                    <h4 class="card-title"> Add a Course </h4>
+                </div>
+                    <div class="card-body">
+                        
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+
+                        @if (session('message'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
+                        <form action="{{route('admin.viewcourses')}}" method="post">
+                            {{ csrf_field() }} 
+                
+                            <div class="form-group mb-3">
+                                <label for="course">Course Name</label>
+                                <input type="text" class="form-control @error('course') border border-danger @enderror" id="course" name="course">
+                            
+                                @error('course')
+                                    <div class="fw-light text-danger" >
+                                        {{$message}}
+                
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="description">Description</label>
+                                <input type="text" class="form-control @error('description') border border-danger @enderror" id="description" name="description">
+                            
+                                @error('description')
+                                    <div class="fw-light text-danger" >
+                                        {{$message}}
+                
+                                    </div>
+                                @enderror
+                            </div>
+                            
+                            <button type="submit" class="btn btn-info">Submit</button>
+                            <button type="reset" class="btn btn-danger">Clear</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"> Available Courses </h4>
                     </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="student-table" class="table">
-                                    <thead class=" text-primary">
-                                        <th> First Name </th>
-                                        <th> Last Name </th>
-                                        <th> Email </th>
-                                        <th> Course </th>
-                                        <th> Year </th>
+                                    <thead class="text-info">
+                                        <th> Course ID </th>
+                                        <th> Course Name </th>
+                                        <th> Description </th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($students as $student)
+                                        @foreach ($courses as $course)
                                 
                                         <tr>
-                                            <td> {{$student->first_name}} </td>
-                                            <td> {{$student->lasr_name}} </td>
-                                            <td> {{$student->email}} </td>
-                                            <td> {{$student->course}} </td>
-                                            <td> {{$student->year}} </td>
+                                            <td> {{$course->id}} </td>
+                                            <td> {{$course->course}} </td>
+                                            <td> {{$course->description}} </td>
                                         </tr>
 
                                         @endforeach

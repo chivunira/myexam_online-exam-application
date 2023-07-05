@@ -23,6 +23,12 @@ return new class extends Migration
             $table->bigInteger('role_id')->unsigned()->index();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
 
+            $table->bigInteger('unit_id')->unsigned()->index()->nullable();
+            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
+
+            $table->bigInteger('course_id')->unsigned()->index()->nullable();
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+
             $table->binary('profile_photo')->nullable();
             $table->rememberToken();
             $table->timestamps();

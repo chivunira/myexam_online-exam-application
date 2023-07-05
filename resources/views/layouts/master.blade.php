@@ -78,16 +78,22 @@
               <p>Rejected Requests</p>
             </a>
           </li>
-          <li>
-            <a href="#">
+          <li class="{{'admin/view_units' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('admin.viewunits')}}">
+              <i class="now-ui-icons education_hat"></i>
+              <p>Units</p>
+            </a>
+          </li>
+          <li class="{{'admin/view_courses' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('admin.viewcourses')}}">
               <i class="now-ui-icons education_paper"></i>
-              <p>Subjects</p>
+              <p>Courses</p>
             </a>
           </li>
           <li>
             <a href="#">
-              <i class="now-ui-icons education_hat"></i>
-              <p>Courses</p>
+              <i class="now-ui-icons ui-1_calendar-60"></i>
+              <p>Exam Sessions</p>
             </a>
           </li>
           <li>

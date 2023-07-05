@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Unit extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'unit_name',
+        'description',
+        'exam_date',
+        'exam_venue',
+        'exam_session_id',
+    ];
 }

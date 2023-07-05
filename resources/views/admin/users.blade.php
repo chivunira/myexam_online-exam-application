@@ -19,7 +19,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="student-table" class="table">
-                                    <thead class=" text-primary">
+                                    <thead class=" text-info">
                                         <th> First Name </th>
                                         <th> Last Name </th>
                                         <th> Email </th>
@@ -55,7 +55,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="lec-table" class="table">
-                                    <thead class=" text-primary">
+                                    <thead class=" text-info">
                                         <th> First Name </th>
                                         <th> Last Name </th>
                                         <th> Email </th>
