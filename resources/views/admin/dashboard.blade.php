@@ -1,4 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.master')
+
+@section('title')
+    Admin Dahboard | myExam
+@endsection
+
+@section('page_name')
+    Dashboard
+@endsection
 
 @section('content')
 <div class="container">
@@ -26,4 +34,8 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    
 @endsection

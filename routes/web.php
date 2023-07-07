@@ -53,4 +53,16 @@ Route::prefix('lecturer')->middleware(['auth', 'isLec', 'verified'])->group(func
 Route::prefix('admin')->middleware(['auth', 'isAdmin', 'verified'])->group(function () {
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    Route::get('/view_users', [AdminController::class, 'view_users'])->name('admin.viewusers');
+
+    Route::get('/view_courses', [AdminController::class, 'view_course'])->name('admin.viewcourses');
+    Route::post('/view_courses', [AdminController::class, 'add_course']);
+
+    Route::get('/view_units', [AdminController::class, 'view_unit'])->name('admin.viewunits');
+    Route::post('/view_units', [AdminController::class, 'add_unit']);
+
+    // Route::get('/delete-department/{id}', ('App\Http\Controllers\Admin\DepartmentController@destroy'));
+    // Route::put('/update-department/{id}', 'App\Http\Controllers\Admin\DepartmentController@update'); // Update leave details
+    // Route::get('/edit-department/{id}', 'App\Http\Controllers\Admin\DepartmentController@edit'); // Edit leave details
 });
