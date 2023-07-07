@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Unit extends Model
+class UnitExam extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'unit_name',
-        'description',
+        'unit_id',
+        'exam_date',
+        'exam_venue',
+        'exam_session_id',
     ];
 }

@@ -18,19 +18,13 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->rememberToken(); 
             $table->timestamp('last_login')->nullable();
 
             $table->bigInteger('role_id')->unsigned()->index();
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
 
-            $table->bigInteger('unit_id')->unsigned()->index()->nullable();
-            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
-
-            $table->bigInteger('course_id')->unsigned()->index()->nullable();
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-
             $table->binary('profile_photo')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

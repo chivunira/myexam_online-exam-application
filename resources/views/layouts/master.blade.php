@@ -103,7 +103,7 @@
             </a>
           </li>
           
-          <li class="active-pro">
+          <li>
             <a href="#">
               <i class="now-ui-icons users_single-02"></i>
               <p>User Profile</p>
