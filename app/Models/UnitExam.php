@@ -13,6 +13,6 @@ class UnitExam extends Model
         'unit_id',
         'exam_date',
         'exam_venue',
-        'exam_session_id',
+        'exam_session',
     ];
 }

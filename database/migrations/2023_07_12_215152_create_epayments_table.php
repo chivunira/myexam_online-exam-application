@@ -11,22 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('special_requests', function (Blueprint $table) {
+        Schema::create('epayments', function (Blueprint $table) {
             $table->id();
-
             $table->bigInteger('student_id')->unsigned()->index();
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
-
-            $table->bigInteger('unit_id')->unsigned()->index();
-            $table->foreign('unit_id')->references('id')->on('units')->onDelete('cascade');
-
-            $table->string('reason');
-
-            $table->bigInteger('unit_exam')->unsigned()->index()->nullable();
-            $table->foreign('unit_exam')->references('id')->on('unit_exams')->onDelete('cascade');
-
+            $table->string('transaction_id');
+            $table->integer('amount');
+            $table->string('phone_number');
             $table->string('status');
-
             $table->timestamps();
         });
     }
@@ -36,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('special_requests');
+        Schema::dropIfExists('epayments');
     }
 };

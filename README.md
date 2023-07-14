@@ -1,66 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 style="text-align: center;">
+    myExam
+</h1>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<h2 style="text-align: center;">
+    A web-based exam application system that automates the process of application for special exams, retake exams and exam re-marks.
+</h2>
 
-## About Laravel
+The web based exam application system aims at reducing the time taken to apply for these services and make access to relevant information based on the services such as the remark feedback and the exam schedules for the exams applied for.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Key Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Authentication:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Students and Lecturers can login with the credentials stored in the database.
+- Registration is facilitated through email verification and password creation
+- Roles are assigned on registration based on the email the user used, and are assigned as: student or lecturer.
 
-## Learning Laravel
+### 2. Student Functionalities:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Students can log in and access their dashboard
+- **Exam Application Module**:
+    - Students select an exam period they want to register in and select the unit exam they wish to register for.
+    - Students also have the option to apply for exam remarks.
+- **Payment Module**:
+    - After applying for retakes and re-marks, the system directs the student to the payment module where the student receives an stk push, to input their password and complete the payment.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. Admin Functionalities:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-  Admin can log in and access their dashboard
+- **Exam Period Creation**:
+    - The admin creates, views and can edit the exam periods
+- **Unit Exan Creation**:
+    - The admin creates, views and can edit the unit exams and places them into exam periods.
+- **Request Handling**:
+    - The admin receives requests from the students and reviews them.
+    - They provide feedback for special exam requests.
+    - They foward re-mark requests to the lecturers.
+    - They view payments made for the different requests.
 
-## Laravel Sponsors
+### 4. Lecturer Functionalities:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Lecturer can log in and access their dashboard
+- **Exam Remark Module**:
+    - After students apply for exam remarks, the admin reviews the remark request and assigns it to the lecturer.
+    - Lecturer can access remark requests based on the unit they teach.
 
-### Premium Partners
+## 4. Installation Guide and Dependencies
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### 4.1 - Guide
 
-## Contributing
+1. Clone the repository via GitHub desktop
+    - Go to https://github.com/chivunira/myexam_online-exam-application and clone the repository
+      <br><br>
+2. Open the project from the location where you cloned it in your terminal
+   <br><br>
+3. Once inside the root structure within your terminal, execute the following commands separately:
+   ```shell
+        composer install
+      ```
+   ```shell
+        composer update
+   ```
+   ```shell
+        composer require laravel/socialite
+   ```
+   ```shell
+        npm install
+   ```
+   ```shell
+        copy .env.example .env
+   ```
+   ```shell
+        php artisan key:generate
+   ```
+   ```shell
+        php artisan migrate
+   ```
+   ```shell
+        php artisan serve
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4.2 - Dependencies
 
-## Code of Conduct
+The following libraries are needed in the development of this project:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [Composer](https://getcomposer.org/): A tool for dependency management in PHP
+- [Laravel](https://laravel.com/): A web application framework with expressive, elegant syntax
+- [Xampp](https://www.apachefriends.org/download.html): Database connection tool
+- [GitHub Desktop](https://desktop.github.com/): An open-source GitHub app
+- [Node](https://nodejs.org/en): 

@@ -1,0 +1,174 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Epayment;
+use App\Models\Payment;
+use App\Models\Student;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class MpesaController extends Controller
+{
+    public function generateAccessToken() {
+        $consumer_key = 'LhWsqxGK9cY58Gg9bcLCEiwoVx0wsInv';
+        $consumer_secret = '4YUEBcJwKALxnlmX';
+        $ch = curl_init('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials');
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Basic ' . base64_encode($consumer_key . ':' . $consumer_secret)
+        ]);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Add this line
+        $response = curl_exec($ch);
+        $access_token = json_decode($response);
+        $token_value = $access_token->access_token;
+        return $token_value;
+    }
+
+    public function STKPush(){
+        $userID = Auth::id();
+        $user = User::find($userID);
+        $student = Student::where('user_id', $userID)->first();
+    
+        $business_shortcode = 174379;
+        $timestamp= Carbon::rawParse('now')->format('YmdHms');
+        $passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919';
+        $password = base64_encode($business_shortcode . $passkey . $timestamp);
+        $amount = '1';
+        $partyA = 254745370117; // customer, person paying.
+        $partyB = 174379; //till number for the organization
+        $payment_for = 'nothing for now';
+
+        $url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
+        
+        $token_value = $this->generateAccessToken();
+
+        $headers = [
+            'Authorization: Bearer ' . $token_value,
+            'Content-Type: application/json'
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $data = [
+            'BusinessShortCode' => $business_shortcode,
+            'Password' => $password,
+            'Timestamp' => $timestamp,
+            'TransactionType' => 'CustomerPayBillOnline',
+            'Amount' => $amount,
+            'PartyA' => $partyA,
+            'PartyB' => $partyB,
+            'PhoneNumber' => $partyA,
+            'CallBackURL' => 'https://2acb-105-160-46-77.ngrok-free.app/payment/',
+            'AccountReference' => 'myExam',
+            'TransactionDesc' => $payment_for,
+        ];
+
+        $payload = json_encode($data);
+        
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        curl_close($ch);
+        //dd($response); 
+
+        $response_data = json_decode($response);
+        
+        if(isset($response_data->ResponseCode)){
+            // Check if the request was successful
+            if ($response_data->ResponseCode == '0') {
+                // Create a new payment record in your database
+                $payment = new Epayment;
+                $payment->student_id = $student->id;
+                $payment->transaction_id = $response_data->CheckoutRequestID;
+                $payment->amount = $amount;
+                $payment->phone_number = $partyA;
+                $payment->status = 'pending';
+                $payment->save();
+
+                sleep(15);
+                // Redirect the user to the payment page
+                return $this->handleCallback($response_data->CheckoutRequestID);
+            } else {
+                return response()->json(['status' => 'transaction failed']);
+            }
+        }
+        else{
+            return redirect()->back()->with('message', 'Servers are currently down, please try the payment later');
+        }   
+    }
+
+    // public function handleCallback(Request $request)
+    // {
+    //     // You can access the callback data in the request
+    //     $callbackData = $request->all();
+
+    //     // Extract relevant information from the callback data
+    //     $resultCode = $callbackData['Body']['stkCallback']['ResultCode'];
+    //     $resultDesc = $callbackData['Body']['stkCallback']['ResultDesc'];
+    //     $merchantRequestID = $callbackData['Body']['stkCallback']['MerchantRequestID'];
+    //     $checkoutRequestID = $callbackData['Body']['stkCallback']['CheckoutRequestID'];
+    //     // Extract other relevant fields as needed
+
+    //     // Perform actions based on the callback result
+    //     if ($resultCode == 0) {
+    //         // Payment was successful
+    //         // Process the successful payment
+    //         // ...
+    //         return response()->json(['status' => 'success']);
+    //     } else {
+    //         // Payment was not successful
+    //         // Handle the failure
+    //         // ...
+    //         return response()->json(['status' => 'failed']);
+    //     }
+    // }
+    public function viewPayment(){
+        $userID = Auth::id();
+        $student = Student::where('user_id', $userID)->first();
+        $transaction = Epayment::where('student_id', $student->id)->first();
+        $transaction_id = $transaction->transaction_id;
+
+        return view('student.payment', compact('transaction_id'));
+    }
+
+    public function handleCallback(string $checkoutRequestID){
+        $request = Epayment::where('transaction_id', $checkoutRequestID)->first();
+
+        if(!$request){
+            return redirect()->back()->with('message', 'Servers are currently down, please try the payment later');
+        }
+        
+        $content = $request->getContent();
+        $mpesaResponse = json_decode($content);
+        dd($mpesaResponse);
+    
+        // Retrieve the payment record from your database using the transaction ID
+        $payment = Epayment::where('transaction_id', $mpesaResponse->CheckoutRequestID)->first();
+    
+        // Update the payment record with the payment status and any other details
+        $payment->status = $mpesaResponse->ResultCode == 0 ? 'success' : 'failed';
+        $payment->receipt_number = $mpesaResponse->ResultCode == 0 ? $mpesaResponse->MerchantRequestID : null;
+        $payment->transaction_date = $mpesaResponse->ResultCode == 0 ? Carbon::parse($mpesaResponse->TransactionDate)->toDateTimeString() : null;
+    
+        // Save the updated payment record to your database
+        $payment->save();
+    
+        // Return a response to Safaricom's API
+        $response = [
+            'ResultCode' => 0,
+            'ResultDesc' => 'The service was accepted successfully',
+        ];
+    
+        return response()->json($response);
+    }
+    
+    
+}

@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('title')
-    Units | myExam
+    Exam Sessions | myExam
 @endsection
 
 @section('page_name')
-    Units
+    Exam Sessions
 @endsection
 
 @section('content')
@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> Add a Unit Exam</h4>
+                    <h4 class="card-title"> Add an Exam Session</h4>
                 </div>
                     <div class="card-body">
                         
@@ -30,14 +30,14 @@
                             </div>
                         @endif
 
-                        <form action="{{route('admin.viewunits')}}" method="post">
+                        <form action="{{route('admin.viewexam_sessions')}}" method="post">
                             {{ csrf_field() }} 
                 
                             <div class="form-group mb-3">
-                                <label for="course">Unit Name</label>
-                                <input type="text" class="form-control @error('course') border border-danger @enderror" id="course" name="course">
+                                <label for="exam_session_name">Exam Session name</label>
+                                <input type="text" class="form-control @error('exam_session_name') border border-danger @enderror" id="exam_session_name" name="exam_session_name">
                             
-                                @error('course')
+                                @error('exam_session_name')
                                     <div class="fw-light text-danger" >
                                         {{$message}}
                 
@@ -58,39 +58,10 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="exam_date">Exam Date</label>
-                                <input type="date" class="form-control @error('exam_date') border border-danger @enderror" id="exam_date" name="exam_date">
+                                <label for="start_date">Start Date</label>
+                                <input type="date" class="form-control @error('start_date') border border-danger @enderror" id="start_date" name="start_date">
                             
-                                @error('exam_date')
-                                    <div class="fw-light text-danger" >
-                                        {{$message}}
-                
-                                    </div>
-                                @enderror
-                            </div>
-                            
-                            <div class="form-group mb-3">
-                                <label for="exam_venue">Exam Venue</label>
-                                <input type="text" class="form-control @error('exam_venue') border border-danger @enderror" id="exam_venue" name="exam_venue">
-                            
-                                @error('exam_venue')
-                                    <div class="fw-light text-danger" >
-                                        {{$message}}
-                
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="exam_session_id">Exam Session</label>
-                                <select class="form-control @error('exam_session_id') border border-danger @enderror" id="exam_session_id" name="exam_session_id">
-                                    <option value="">Select Exam Session</option>
-                                    @foreach($exam_sessions as $es)
-                                        <option value="{{ $es->id }}">{{ $es->exam_session_name }}</option>
-                                    @endforeach
-                                </select>
-
-                                @error('exam_session_id')
+                                @error('start_date')
                                     <div class="fw-light text-danger" >
                                         {{$message}}
                 
@@ -109,27 +80,35 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"> Available Unit Exams </h4>
+                    <h4 class="card-title"> Exam Sessions </h4>
                     </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="student-table" class="table">
                                     <thead class="text-info">
-                                        <th> Unit Name </th>
-                                        <th> Description </th>
-                                        <th> Exam Date </th>
-                                        <th> Exam Venue </th>
                                         <th> Exam Session </th>
+                                        <th> Description </th>
+                                        <th> Start Date </th>
+                                        <th> Registration Deadline </th>
+                                        <th> Status </th>
+                                        <th hidden> Edit </th>
+                                        <th hidden> Delete </th>
                                     </thead>
                                     <tbody>
-                                        @foreach ($units as $unit)
+                                        @foreach ($exam_sessions as $es)
                                 
                                         <tr>
-                                            <td> {{$unit->unit_name}} </td>
-                                            <td> {{$unit->description}} </td>
-                                            <td> {{$unit->exam_date}} </td>
-                                            <td> {{$unit->exam_venue}} </td>
-                                            <td> {{$unit->exam_session_id}} </td>
+                                            <td> {{$es->exam_session_name}} </td>
+                                            <td> {{$es->description}} </td>
+                                            <td> {{$es->start_date}} </td>
+                                            <td> {{$es->registration_deadline}} </td>
+                                            <td> {{$es->status}} </td>
+                                            <td>
+                                                <a href="{{url('admin/edit-exam_session/'.$es->id)}}" class="btn btn-info">Edit</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{url('admin/delete-exam_session/'.$es->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure You want to delete {{$es->exam_session_name}} from the system ')">Delete</a>
+                                            </td>
                                         </tr>
 
                                         @endforeach

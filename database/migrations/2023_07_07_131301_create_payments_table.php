@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+
+            $table->bigInteger('student_id')->unsigned()->index();
+            $table->foreign('student_id')->references('id')->on('students');
+
+            $table->string('payment_for');
+            $table->integer('request_id');
+            $table->integer('amount');
             $table->timestamps();
         });
     }

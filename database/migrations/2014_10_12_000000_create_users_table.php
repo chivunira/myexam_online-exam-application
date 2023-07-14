@@ -25,6 +25,8 @@ return new class extends Migration
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
 
             $table->binary('profile_photo')->nullable();
+            $table->integer('phone_number')->nullable();
+            $table->string('gender')->nullable();
             $table->timestamps();
         });
     }

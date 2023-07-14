@@ -82,7 +82,7 @@ class RegisterController extends Controller
         } elseif (count($parts) == 2 && str_ends_with($email, '@gmail.com')) {
             $role_id = 2;
         } elseif (count($parts) == 1 && str_ends_with($email, '@gmail.com')) {
-            $adminExists = User::where('email', 'LIKE', '%' . $parts[0] . '@%')->where('role_id', 3)->exists();
+            $adminExists = User::where('role_id', 3)->exists();
 
             if ($adminExists) {
                 return back()->with('message', 'Account creation is restricted for this email format.');

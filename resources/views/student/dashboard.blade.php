@@ -1,4 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.s_master')
+
+@section('title')
+    Student Dashboard | myExam
+@endsection
+
+@section('page_name')
+    Student Dashboard
+@endsection
 
 @section('content')
 <div class="container">

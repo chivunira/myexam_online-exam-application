@@ -1,4 +1,4 @@
-@extends('layouts.master')
+ @extends('layouts.master')
 
 @section('title')
     Courses | myExam
@@ -71,11 +71,13 @@
                     </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="student-table" class="table">
+                                <table id="course-table" class="table">
                                     <thead class="text-info">
                                         <th> Course ID </th>
                                         <th> Course Name </th>
                                         <th> Description </th>
+                                        <th hidden> Edit </th>
+                                        <th hidden> Delete </th>
                                     </thead>
                                     <tbody>
                                         @foreach ($courses as $course)
@@ -84,6 +86,12 @@
                                             <td> {{$course->id}} </td>
                                             <td> {{$course->course}} </td>
                                             <td> {{$course->description}} </td>
+                                            <td>
+                                                <a href="{{url('admin/edit-course/'.$course->id)}}" class="btn btn-info">Edit</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{url('admin/delete-course/'.$course->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure You want to delete course:[{{$course->course}}] from the system ')">Delete</a>
+                                            </td>
                                         </tr>
 
                                         @endforeach
@@ -104,14 +112,10 @@
     <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
-        $('#student-table').DataTable({
+        $('#course-table').DataTable({
             paging: true, // Enable pagination
             searching: true, // Enable search bar
-        });
-
-        $('#lec-table').DataTable({
-            paging: true, // Enable pagination
-            searching: true, // Enable search bar
+            responsive: true,
         });
     });
     </script>

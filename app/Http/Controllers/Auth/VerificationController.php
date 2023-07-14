@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Lecturer;
+use App\Models\Student;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Providers\RouteServiceProvider;
@@ -60,6 +63,35 @@ class VerificationController extends Controller
         Auth::login(Auth::user());
         // Check the role of the authenticated user
         $user = Auth::user();
+
+        $user = User::find(auth()->id());
+
+        //on logging in, check if the user is a first time user
+        //if yes the system adds the user to the lecturer or students table depending on their role
+        // after adding the students, the system updates their last login fields to now.
+        
+        if($user->last_login == null){
+            if (Auth::user()->role_id == '1') {
+                Student::create([
+                    'user_id' => $user->id,
+                ]);
+                $user->update([
+                    'last_login' => now(),
+                ]);
+
+            } elseif(Auth::user()->role_id == '2') {
+                Lecturer::create([
+                    'user_id' => $user->id,
+                ]);
+                $user->update([
+                    'last_login' => now(),
+                ]);
+            }
+        }
+
+        $user->update([
+            'last_login' => now(),
+        ]);
 
         if ($user->role_id == 3) {
             return '/admin/dashboard'; // Redirect to the admin dashboard

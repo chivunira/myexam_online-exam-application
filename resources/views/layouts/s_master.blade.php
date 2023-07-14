@@ -19,11 +19,11 @@
   <link href="{{ asset('assets/css/now-ui-dashboard.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/demo/demo.css') }}" rel="stylesheet" />
 
-  <!-- css for ngrok -->
-  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/mycss.css" rel="stylesheet" />
-  <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
-  <link href="../assets/demo/demo.css" rel="stylesheet" />
+    <!-- css for ngrok -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets/css/mycss.css" rel="stylesheet" />
+    <link href="../assets/css/now-ui-dashboard.css?v=1.5.0" rel="stylesheet" />
+    <link href="../assets/demo/demo.css" rel="stylesheet" />
 
   <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,7 +39,6 @@
     }
 </script>
 
-
 </head>
 
 <body class="">
@@ -52,71 +51,48 @@
       </div>
       <div class="sidebar-wrapper" id="sidebar-wrapper">
         <ul class="nav">
-          <li class="{{'admin/dashboard' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.dashboard')}}">
+          <li class="{{'student/dashboard' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('student.dashboard')}}">
               <i class="now-ui-icons design_app"></i>
               <p>Dashboard</p>
             </a>
           </li>
           
-          <li class="{{'admin/view_users' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.viewusers')}}">
-              <i class="now-ui-icons business_badge"></i>
-              <p>Users</p>
+          <li class="{{'student/retake_request_form' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('student.retakerequest')}}">
+              <i class="now-ui-icons education_paper"></i>
+              <p>Apply for Retake</p>
             </a>
           </li>
 
-          <li>
-            <a href="#">
+          <li class="{{'student/special_request_form' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('student.specialrequest')}}">
               <i class="now-ui-icons files_single-copy-04"></i>
-              <p>Student Requests</p>
+              <p>Apply for Special Exam</p>
             </a>
           </li>
           <li >
             <a href="#">
-              <i class="now-ui-icons ui-2_like"></i>
-              <p>Approved Requests</p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <i class="now-ui-icons ui-1_simple-remove"></i>
-              <p>Rejected Requests</p>
-            </a>
-          </li>
-          <li class="{{'admin/view_units' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.viewunits')}}">
-              <i class="now-ui-icons education_hat"></i>
-              <p>Units</p>
-            </a>
-          </li>
-          <li class="{{'admin/view_unit_exams' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.viewunit_exams')}}">
               <i class="now-ui-icons files_paper"></i>
-              <p>Unit Exams</p>
-            </a>
-          </li>
-          <li class="{{'admin/view_courses' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.viewcourses')}}">
-              <i class="now-ui-icons education_paper"></i>
-              <p>Courses</p>
-            </a>
-          </li>
-          <li class="{{'admin//view_exam_session' == request()->path() ? 'active' : ' ' }}">
-            <a href="{{route('admin.viewexam_sessions')}}">
-              <i class="now-ui-icons ui-1_calendar-60"></i>
-              <p>Exam Sessions</p>
+              <p>Apply for Exam Remark</p>
             </a>
           </li>
           <li>
             <a href="#">
               <i class="now-ui-icons business_money-coins"></i>
-              <p>Payments Made</p>
+              <p>Payment History</p>
+            </a>
+          </li>
+          <li class="{{'student/application_history' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('student.application_history')}}">
+              <i class="now-ui-icons ui-1_calendar-60"></i>
+              <p>Application History</p>
             </a>
           </li>
           
-          <li>
-            <a href="#">
+          
+          <li class="active-pro {{'student/profile' == request()->path() ? 'active' : ' ' }}">
+            <a href="{{route('student.profile')}}">
               <i class="now-ui-icons users_single-02"></i>
               <p>User Profile</p>
             </a>
@@ -148,7 +124,7 @@
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{route('student.profile')}}">
                   <i class="now-ui-icons users_single-02"></i>
                   <p>
                     <span class="d-lg-none d-md-block">Account</span>
@@ -199,7 +175,7 @@
   <script src="{{ asset('assets/js/now-ui-dashboard.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('assets/demo/demo.js') }}"></script>
 
-  <!-- for ngrok -->
+    <!-- for ngrok -->
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>

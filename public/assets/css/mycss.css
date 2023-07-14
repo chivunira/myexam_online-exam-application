@@ -1,0 +1,61 @@
+
+        /* CSS styles */
+
+        body {
+          font-size: 40px;
+        }
+
+        .navbar-mylogo {
+            font-family: "sans-serif";
+            font-size: 60px; /* Adjust the font size as needed */
+            font-weight: bold; /* Adjust the font weight as needed */
+            text-decoration: none; /* Remove underline from the company name */
+            display: flex;
+            align-items: left;
+          }
+
+          .dashname {
+            font-family: "sans-serif";
+            font-size: 40px;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: left;
+            color: white; /* Set the text color to white */
+          }
+          
+          .dashname:hover {
+            text-decoration: none; /* Remove underline on hover as well */
+            color: white;
+          }
+          
+          .navbar-mylogo img {
+            margin-right: 5px; /* Add spacing between the logo and company name */
+          }
+          
+        .chivu {
+            position: relative;
+            float: right;
+            width: calc(100% - 260px);
+            transition: all .5s cubic-bezier(.685, .0473, .346, 1);
+        }
+
+        .chivu > .content {
+            padding: 0 30px 30px;
+            min-height: calc(100vh - 123px);
+            margin-top: -30px;
+        }
+
+        .chivu > .navbar {
+            margin-bottom: 0;
+        }
+
+        .chivu .header {
+            margin-bottom: 50px;
+        }
+
+        .perfect-scrollbar-on .chivu,
+        .perfect-scrollbar-on .sidebar {
+            height: 100%;
+            max-height: 100%;
+        }
