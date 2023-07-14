@@ -85,4 +85,4 @@ The following libraries are needed in the development of this project:
 - [Laravel](https://laravel.com/): A web application framework with expressive, elegant syntax
 - [Xampp](https://www.apachefriends.org/download.html): Database connection tool
 - [GitHub Desktop](https://desktop.github.com/): An open-source GitHub app
-- [Node](https://nodejs.org/en): 
+- [Node](https://nodejs.org/en): an open-source, cross-platform JavaScript runtime environment and library for running web applications outside the client's browser.
