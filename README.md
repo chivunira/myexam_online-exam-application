@@ -68,9 +68,6 @@ The web based exam application system aims at reducing the time taken to apply f
         npm install
    ```
    ```shell
-        copy .env.example .env
-   ```
-   ```shell
         php artisan key:generate
    ```
    ```shell
